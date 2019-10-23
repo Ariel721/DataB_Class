@@ -1,9 +1,9 @@
 --*************************************************************************--
 -- Title: Assignment03
--- Author: YourNameHere
+-- Author: Ariel Garcia
 -- Desc: This file demonstrates how to select data from a database
 -- Change Log: When,Who,What
--- 2017-01-01,YourNameHere,Created File
+-- 2017-01-01, Ariel Garcia, Created File
 --**************************************************************************--
 Use Master;
 go
