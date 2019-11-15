@@ -340,7 +340,7 @@ With Schemabinding
 As 
 Select C.CategoryID, C.CategoryName, P.ProductID, P.ProductName, P.UnitPrice, I.InventoryID, I.InventoryDate, I.[Count], E.EmployeeID, E.EmployeeFirstName, E.EmployeeLastName, E.ManagerID 
 
-From dbo.vCategories as C join dbo.vProducts P 
+From dbo.vCategories as C join dbo.vProducts as P 
 on  C.CategoryID = P.CategoryID
 Join dbo.vInventories as I
 On P.ProductID = I.ProductID
