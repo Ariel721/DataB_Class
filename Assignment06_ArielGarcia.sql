@@ -338,16 +338,14 @@ Grant Select On dbo.vEmployeesByManager to Public;
 Create or Alter View vInventoriesByProductsByCategoriesByEmployees
 With Schemabinding
 As 
-Select CategoryID, CategoryName From dbo.vCategories
+Select C.CategoryID, C.CategoryName, P.ProductID, P.ProductName, P.UnitPrice, I.InventoryID, I.InventoryDate, I.[Count], E.EmployeeID, E.EmployeeFirstName, E.EmployeeLastName, E.ManagerID 
 
-Select ProductID, ProductName, CategoryID, UnitPrice From dbo.vProducts
-
-Select InventoryID, InventoryDate, EmployeeID, ProductID, [Count] From dbo.vInventories
-
-Select EmployeeID, EmployeeFirstName, EmployeeLastName, ManagerID From dbo.vEmployees
-
--- I know this answer is not complete I went completely lost on how to do this, I could not find anything on the internet eithe. If you can provide a Brief explanation or sample code will be greatly appreciated. thanks!!!
-
+From dbo.vCategories as C join dbo.vProducts P 
+on  C.CategoryID = P.CategoryID
+Join dbo.vInventories as I
+On P.ProductID = I.ProductID
+join dbo.vEmployees as E
+On I.EmployeeID = E.EmployeeID
 
 -- References 
 
