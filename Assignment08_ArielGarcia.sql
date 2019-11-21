@@ -398,10 +398,10 @@ go
 -- Question 3 (20 pts): How can you create Insert, Update, and Delete Transactions Store Procedures  
 -- for the Employees table?
 
-Create Procedure pInsEmployees
+Create Procedure pInsEmployees -- >>>>>>>>IMPORTANT Change to Alter and run again change type from Int to nvarchar on Last name
 
 (@EmployeeFirstName nvarchar (100),
- @EmployeeLastName int,
+ @EmployeeLastName nvarchar (100),
  @ManagerID int)
 
  -- Author: <ArielGarcia>
@@ -487,44 +487,150 @@ AS
   Return @RC;
  End
 go
-
-Exec pInsProducts
-@ProductName = 'Redmoose',
-@CategoryID = 1,
-@UnitPrice = 18.99
+					  
+--EmployeeFirstName,EmployeeLastName,ManagerID
+Exec pInsEmployees
+@EmployeeFirstName = 'Jeffrey',
+@EmployeeLastName = 'Wilcox',
+@ManagerID = 1,
 go 
-Exec pInsProducts
-@ProductName = 'Oregano Oil',
-@CategoryID = 2,
-@UnitPrice = 16.49
+Exec pInsEmployees
+@EmployeeFirstName = 'Timothy',
+@EmployeeLastName = 'Jones',
+@ManagerID = 2,
 go
-Exec pUpdProducts
-@ProductID = 1,
-@ProductName = 'Yerba Mate',
-@CategoryID = 1,
-@UnitPrice = 3.69
+Exec pUpdEmployees
+@EmployeeID = 1,
+@EmployeeFirstName = 'James',
+@EmployeeLastName = 'Martin',
+@ManagerID = 2,
 go
-Exec pDelProducts
-@ProductID = 2
+Exec pDelEmployees
+@EmployeeID = 2
 go
 
 --DBCC CHECKIDENT(Products, RESEED, 0)
---gocmd
+--go
 
 -- Question 4 (20 pts): How can you create Insert, Update, and Delete Transactions Store Procedures  
 -- for the Inventories table?
---Create Procedure pInsInventories
---< Place Your Code Here!>--
+
+Create Procedure pInsInventories
+
+(@InventoryDate Date,
+ @EmployeeID int,
+ @ProductID int,
+ @Count int,)
+
+ -- Author: <ArielGarcia>
+ -- Desc: Processes <Desc text>
+ -- Change Log: When,Who,What
+ -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
+AS
+ Begin
+  Declare @RC int = 0;
+  Begin Try
+   Begin Transaction 
+	Insert Into Inventories(InventoryDate, EmployeeID, @ProductID, [Count]) 
+	Values (@InventoryDate, @EmployeeID, @ProductID, @Count)
+   Commit Transaction
+   Set @RC = +1
+  End Try
+  Begin Catch
+   Rollback Transaction
+   Print Error_Message()
+   Set @RC = -1
+  End Catch
+  Return @RC;
+ End
+go
+ 
+Create Procedure pUpdInventories
+(@InventoryID int,
+ @InventoryDate Date,
+ @EmployeeID int,
+ @ProductID int,
+ @Count int,)
+ 
+ -- Author: <ArielGarcia>
+ -- Desc: Processes <Desc text>
+ -- Change Log: When,Who,What
+ -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
+AS
+ Begin
+  Declare @RC int = 0;
+  Begin Try
+   Begin Transaction 
+	Update Inventories
+	Set InventoryDate = @InventoryDate,
+	    EmployeeID = @EmployeeID,
+	    ProductID = @ProductID,
+	    [Count] = @Count
+	Where InventoryID = @InventoryID
+   Commit Transaction
+   Set @RC = +1
+  End Try
+  Begin Catch
+   Rollback Transaction
+   Print Error_Message()
+   Set @RC = -1
+  End Catch
+  Return @RC;
+ End
+go
+ 
+Create Procedure pDelInventories
+
+(@InventoryID int)
+
+ -- Author: <ArielGarcia>
+ -- Desc: Processes <Desc text>
+ -- Change Log: When,Who,What
+ -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
+AS
+ Begin
+  Declare @RC int = 0;
+  Begin Try
+   Begin Transaction 
+	Delete 
+	From Inventories 
+	Where InventoryID = @InventoryID
+   Commit Transaction
+   Set @RC = +1
+  End Try
+  Begin Catch
+   Rollback Transaction
+   Print Error_Message()
+   Set @RC = -1
+  End Catch
+  Return @RC;
+ End
 go
 
---Create Procedure pUpdInventories
---< Place Your Code Here!>--
+--(InventoryDate, EmployeeID, @ProductID, [Count] 
+Exec pInsInventories --                <<<<<<<<<<<< Needs update>>>>>>>>>>>
+@EmployeeFirstName = 'Jeffrey',
+@EmployeeLastName = 'Wilcox',
+@ManagerID = 1,
+go 
+Exec pInsEmployees
+@EmployeeFirstName = 'Timothy',
+@EmployeeLastName = 'Jones',
+@ManagerID = 2,
+go
+Exec pUpdEmployees
+@EmployeeID = 1,
+@EmployeeFirstName = 'James',
+@EmployeeLastName = 'Martin',
+@ManagerID = 2,
+go
+Exec pDelEmployees
+@EmployeeID = 2
 go
 
---Create Procedure pDelInventories
---< Place Your Code Here!>--
-go
-
+--DBCC CHECKIDENT(Products, RESEED, 0)
+--go
+									
 -- Question 5 (20 pts): How can you Execute each of your Insert, Update, and Delete stored procedures? 
 -- Include custom messages to indicate the status of each sproc's execution.
 
