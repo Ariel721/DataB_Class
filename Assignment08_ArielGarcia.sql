@@ -1,9 +1,9 @@
 --*************************************************************************--
 -- Title: Assignment08
--- Author: ArielGarcia
+-- Author: Ariel Garcia
 -- Desc: This file demonstrates how to use Stored Procedures
 -- Change Log: When,Who,What
--- 2017-01-01,ArielGarcia,Created File
+-- 2017-01-01,Ariel Garcia,Created File
 --**************************************************************************--
 Begin Try
 	Use Master;
@@ -138,6 +138,21 @@ Create View vInventories With SchemaBinding
   Select InventoryID, InventoryDate, EmployeeID, ProductID, [Count] From dbo.Inventories;
 go
 
+-- Selecting code
+/*
+Select * From vCategories
+order by CategoryID
+go
+Select * From vProducts
+order by ProductID
+go
+Select * From vEmployees
+order by EmployeeID
+go
+Select * From vInventories
+order by InventoryID
+go*/
+
 /********************************* Questions and Answers *********************************/
 /* NOTE:Use the following template to create your stored procedures and plan on this taking ~2-3 hours
 
@@ -174,7 +189,7 @@ Create Procedure pInsCategories
 (@CategoryName nvarchar (100))
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for inserting data into the Categories table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -201,7 +216,7 @@ Create Procedure pUpdCategories
 (@CategoryID int, @CategoryName nvarchar (100))
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for updating data in the Categories table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -229,7 +244,7 @@ Create Procedure pDelCategories
 (@CategoryID int)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for deleting data from the Categories table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -253,6 +268,7 @@ AS
 go
 
 -- Basic Test Code -  we will get more advanced on question 5 
+/*
 Select * From vCategories
 order by CategoryID
 go
@@ -273,7 +289,7 @@ go
 
 --DBCC CHECKIDENT(Categories, RESEED, 0)
 --go
-
+*/
 -- Question 2 (20 pts): How can you create Insert, Update, and Delete Transactions Store Procedures  
 -- for the Products table?
 
@@ -284,7 +300,7 @@ Create Procedure pInsProducts
  @UnitPrice money)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for inserting data into the Products table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -314,7 +330,7 @@ Create Procedure pUpdProducts
  @UnitPrice money)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for updating data in the Products table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -344,7 +360,7 @@ Create Procedure pDelProducts
 (@ProductID int)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for deleting data from the Products table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -367,7 +383,8 @@ AS
  End
 go
 
--- Basic Test Code -  we will get more advanced on question 5 
+-- Basic Test Code 
+/*
 Select * From vProducts
 order by ProductID
 go
@@ -389,23 +406,23 @@ Exec pUpdProducts
 @UnitPrice = 3.69
 go
 Exec pDelProducts
-@ProductID = 2
+@ProductID = 4
 go
 
 --DBCC CHECKIDENT(Products, RESEED, 0)
 --go
-
+*/
 -- Question 3 (20 pts): How can you create Insert, Update, and Delete Transactions Store Procedures  
 -- for the Employees table?
 
-Create Procedure pInsEmployees -- >>>>>>>>IMPORTANT Change to Alter and run again change type from Int to nvarchar on Last name
+Create Procedure pInsEmployees 
 
 (@EmployeeFirstName nvarchar (100),
  @EmployeeLastName nvarchar (100),
  @ManagerID int)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for inserting data into the Employees table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -435,7 +452,7 @@ Create Procedure pUpdEmployees
  @ManagerID int)
  
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for updating data in the Employees table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -465,7 +482,7 @@ Create Procedure pDelEmployees
 (@EmployeeID int)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for deleting data from the Employees table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -488,42 +505,55 @@ AS
  End
 go
 					  
---EmployeeFirstName,EmployeeLastName,ManagerID
+--Basic Test Code
+/*
+Select * From vEmployees
+order by EmployeeID
+go
+
 Exec pInsEmployees
 @EmployeeFirstName = 'Jeffrey',
 @EmployeeLastName = 'Wilcox',
-@ManagerID = 1,
+@ManagerID = 1
 go 
 Exec pInsEmployees
 @EmployeeFirstName = 'Timothy',
 @EmployeeLastName = 'Jones',
-@ManagerID = 2,
+@ManagerID = 2
+go
+Exec pInsEmployees
+@EmployeeFirstName = 'Corey',
+@EmployeeLastName = 'Jackson',
+@ManagerID = 2
 go
 Exec pUpdEmployees
 @EmployeeID = 1,
 @EmployeeFirstName = 'James',
-@EmployeeLastName = 'Martin',
-@ManagerID = 2,
+@EmployeeLastName = 'Martin III',
+@ManagerID = 1
 go
 Exec pDelEmployees
-@EmployeeID = 2
+@EmployeeID = 1
 go
 
---DBCC CHECKIDENT(Products, RESEED, 0)
+--Alter Table Employees 
+--Drop Constraint fkEmployeesToEmployeesManager; -- Here we learned that delete is not a 
 --go
-
+--DBCC CHECKIDENT(Employees, RESEED, 0)
+--go
+*/ 
 -- Question 4 (20 pts): How can you create Insert, Update, and Delete Transactions Store Procedures  
 -- for the Inventories table?
 
 Create Procedure pInsInventories
 
-(@InventoryDate Date,
- @EmployeeID int,
+(@EmployeeID int,
+@InventoryDate date,
  @ProductID int,
- @Count int,)
+ @Count int)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for inserting data into the Inventories table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -531,7 +561,7 @@ AS
   Declare @RC int = 0;
   Begin Try
    Begin Transaction 
-	Insert Into Inventories(InventoryDate, EmployeeID, @ProductID, [Count]) 
+	Insert Into Inventories(InventoryDate , EmployeeID, ProductID, [Count]) 
 	Values (@InventoryDate, @EmployeeID, @ProductID, @Count)
    Commit Transaction
    Set @RC = +1
@@ -547,13 +577,13 @@ go
  
 Create Procedure pUpdInventories
 (@InventoryID int,
- @InventoryDate Date,
+ @InventoryDate date,
  @EmployeeID int,
  @ProductID int,
- @Count int,)
+ @Count int)
  
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for updating data in the Inventories table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -584,7 +614,7 @@ Create Procedure pDelInventories
 (@InventoryID int)
 
  -- Author: <ArielGarcia>
- -- Desc: Processes <Desc text>
+ -- Desc: Processes create Stored Procedure for deleting data from the Inventories table
  -- Change Log: When,Who,What
  -- <2017-01-01>,<Ariel Garcia>,Created Sproc.
 AS
@@ -607,30 +637,46 @@ AS
  End
 go
 
---(InventoryDate, EmployeeID, @ProductID, [Count] 
-Exec pInsInventories --                <<<<<<<<<<<< Needs update>>>>>>>>>>>
-@EmployeeFirstName = 'Jeffrey',
-@EmployeeLastName = 'Wilcox',
-@ManagerID = 1,
-go 
-Exec pInsEmployees
-@EmployeeFirstName = 'Timothy',
-@EmployeeLastName = 'Jones',
-@ManagerID = 2,
-go
-Exec pUpdEmployees
-@EmployeeID = 1,
-@EmployeeFirstName = 'James',
-@EmployeeLastName = 'Martin',
-@ManagerID = 2,
-go
-Exec pDelEmployees
-@EmployeeID = 2
+--Basic Test Code
+/*
+Select * From vInventories
+order by InventoryID
 go
 
---DBCC CHECKIDENT(Products, RESEED, 0)
---go
-									
+Exec pInsInventories                
+@EmployeeID = 1,
+@InventoryDate = '2017-01-01',
+@ProductID = 1,
+@Count = 65
+go 
+
+Exec pUpdInventories
+@InventoryID = 1,
+@InventoryDate = '2017-01-01',
+@EmployeeID = 1,
+@ProductID = 1,
+@Count = 54
+go
+Exec pDelInventories
+@InventoryID = 1
+go
+
+DBCC CHECKIDENT(Inventories, RESEED, 0)
+go
+
+Select * From vCategories
+order by CategoryID
+go
+Select * From vProducts
+order by ProductID
+go
+Select * From vEmployees
+order by EmployeeID
+go
+Select * From vInventories
+order by InventoryID
+go*/	
+	
 -- Question 5 (20 pts): How can you Execute each of your Insert, Update, and Delete stored procedures? 
 -- Include custom messages to indicate the status of each sproc's execution.
 
@@ -650,65 +696,155 @@ go
 
 --< Test Insert Sprocs >--
 -- Test [dbo].[pInsCategories]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pInsCategories
+                @CategoryName = 'A'
+Select Case @RC
+  When +1 Then 'Categories Insert was successful!'
+  When -1 Then 'Categories Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vCategories Where CategoryID = 1;
 go
 
 -- Test [dbo].[pInsProducts]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pInsProducts
+                @ProductName = 'A',
+				@CategoryID = 1,
+				@UnitPrice = 9.99
+Select Case @RC
+  When +1 Then 'Products Insert was successful!'
+  When -1 Then 'Products Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vProducts Where ProductID = 1;
 go
 
 -- Test [dbo].[pInsEmployees]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pInsEmployees
+                @EmployeeFirstName = 'Abe',
+				@EmployeeLastName = 'Archer',
+				@ManagerID = 1
+Select Case @RC
+  When +1 Then 'Employees Insert was successful!'
+  When -1 Then 'Employees Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vEmployees Where EmployeeID = 1;
 go
 
 -- Test [dbo].[pInsInventories]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pInsInventories
+                @InventoryDate = '2017-01-01',
+				@EmployeeID = 1,
+				@ProductID = 1,
+				@Count = 42
+Select Case @RC
+  When +1 Then 'Inventories Insert was successful!'
+  When -1 Then 'Inventories Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vInventories Where InventoryID = 1;
 go
 
 --< Test Update Sprocs >--
 -- Test Update [dbo].[pUpdCategories]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pUpdCategories
+				@CategoryID = 1,
+				@CategoryName = 'B';
+Select Case @RC
+  When +1 Then 'Categories Insert was successful!'
+  When -1 Then 'Categories Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vCategories Where CategoryID = 1;
 go
 
 -- Test [dbo].[pUpdProducts]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pUpdProducts
+                @ProductID = 1,
+				@ProductName = 'B',
+				@CategoryID = 1,
+				@UnitPrice = 1.00
+Select Case @RC
+  When +1 Then 'Products Insert was successful!'
+  When -1 Then 'Products Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vProducts Where ProductID = 1;
 go
 
 -- Test [dbo].[pUpdEmployees]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pUpdEmployees
+                @EmployeeID = 1,
+				@EmployeeFirstName = 'Abe',
+				@EmployeeLastName = 'Arch',
+				@ManagerID = 1
+Select Case @RC
+  When +1 Then 'Employees Insert was successful!'
+  When -1 Then 'Employees Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vEmployees Where EmployeeID = 1;
 go
 
 -- Test [dbo].[pUpdInventories]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pUpdInventories
+                @InventoryID = 1,
+				@InventoryDate = '2017-01-02',
+				@EmployeeID = 1,
+				@ProductID = 1,
+				@Count = 43
+Select Case @RC
+  When +1 Then 'Inventories Insert was successful!'
+  When -1 Then 'Inventories Insert failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vInventories Where InventoryID = 1;
 go
 
 --< Test Delete Sprocs >--
 -- Test [dbo].[pDelInventories]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pDelInventories
+				@InventoryID = 1
+Select Case @RC
+  When +1 Then 'Inventories Delete was successful!'
+  When -1 Then 'Inventories Delete failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vInventories Where InventoryID = 1;
 go
 
 -- Test [dbo].[pDelEmployees]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pDelEmployees
+				@EmployeeID = 1 
+Select Case @RC
+  When +1 Then 'Employees Delete was successful!'
+  When -1 Then 'Employees Delete failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vEmployees Where EmployeeID = 1;
 go
 
 -- Test [dbo].[pDelProducts]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pDelProducts
+				@ProductID = 1 
+Select Case @RC
+  When +1 Then 'Products Delete was successful!'
+  When -1 Then 'Products Delete failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vProducts Where ProductID = 1;
 go
 
 -- Test [dbo].[pDelCategories]
-Declare @Status int;
---< Place Your Code Here!>--
+Declare @RC int;
+Exec @RC = pDelCategories
+				@CategoryID = 1 
+Select Case @RC
+  When +1 Then 'Categories Delete was successful!'
+  When -1 Then 'Categories Delete failed! Common Issues: Duplicate Data'
+  End as [Status];
+Select * From vCategories Where CategoryID = 1;
 go
 
 --{ IMPORTANT!!! }--
